@@ -1,4 +1,6 @@
 .game-wrap {
+  position: relative;
+  z-index: 1;
   max-width: 480px;
   margin: 0 auto;
   padding: 0 1rem 2rem;

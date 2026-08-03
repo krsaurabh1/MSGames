@@ -1,11 +1,14 @@
 const SIZE = 4;
+const BEST_SCORE_KEY = "2048-best-score";
 const boardEl = document.getElementById("board");
 const scoreEl = document.getElementById("score");
+const bestScoreEl = document.getElementById("best-score");
 const messageEl = document.getElementById("message");
 const messageTextEl = document.getElementById("message-text");
 
 let grid = [];
 let score = 0;
+let bestScore = Number(localStorage.getItem(BEST_SCORE_KEY)) || 0;
 let hasWon = false;
 let gameOver = false;
 
@@ -64,6 +67,12 @@ function render() {
   }
 
   scoreEl.textContent = score;
+
+  if (score > bestScore) {
+    bestScore = score;
+    localStorage.setItem(BEST_SCORE_KEY, String(bestScore));
+  }
+  bestScoreEl.textContent = bestScore;
 }
 
 function slideRowLeft(row) {
