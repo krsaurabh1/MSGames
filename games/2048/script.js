@@ -11,6 +11,69 @@ let score = 0;
 let bestScore = Number(localStorage.getItem(BEST_SCORE_KEY)) || 0;
 let hasWon = false;
 let gameOver = false;
+let mergeOccurred = false;
+let achievedMilestones = new Set();
+
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playTone({ freq, duration = 0.15, type = "sine", volume = 0.2, delay = 0 }) {
+  const ctx = getAudioContext();
+  const startTime = ctx.currentTime + delay;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, startTime);
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(volume, startTime + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.02);
+}
+
+function playMoveSound() {
+  playTone({ freq: 220, duration: 0.07, type: "sine", volume: 0.08 });
+}
+
+function playMergeSound(value) {
+  const steps = Math.log2(value) - 2;
+  const freq = 440 * Math.pow(2, steps / 12);
+  playTone({ freq, duration: 0.14, type: "triangle", volume: 0.15 });
+}
+
+function playMilestoneSound() {
+  playTone({ freq: 523.25, duration: 0.14, type: "square", volume: 0.18 });
+  playTone({ freq: 783.99, duration: 0.18, type: "square", volume: 0.18, delay: 0.1 });
+}
+
+function playWinSound() {
+  const notes = [523.25, 659.25, 783.99, 1046.5];
+  notes.forEach((freq, i) => {
+    playTone({ freq, duration: 0.22, type: "triangle", volume: 0.2, delay: i * 0.13 });
+  });
+}
+
+function playGameOverSound() {
+  const notes = [392, 329.63, 261.63];
+  notes.forEach((freq, i) => {
+    playTone({ freq, duration: 0.3, type: "sine", volume: 0.15, delay: i * 0.15 });
+  });
+}
+
+function playClickSound() {
+  playTone({ freq: 600, duration: 0.05, type: "square", volume: 0.1 });
+}
 
 function createEmptyGrid() {
   return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
@@ -38,6 +101,7 @@ function startGame() {
   score = 0;
   hasWon = false;
   gameOver = false;
+  achievedMilestones = new Set();
   messageEl.classList.add("hidden");
   spawnTile();
   spawnTile();
@@ -83,9 +147,14 @@ function slideRowLeft(row) {
       const mergedValue = nonZero[i] * 2;
       merged.push(mergedValue);
       score += mergedValue;
+      mergeOccurred = true;
       if (mergedValue === 2048 && !hasWon) {
         hasWon = true;
+      } else if (mergedValue > 4 && !achievedMilestones.has(mergedValue)) {
+        achievedMilestones.add(mergedValue);
+        playMilestoneSound();
       }
+      playMergeSound(mergedValue);
       i++;
     } else {
       merged.push(nonZero[i]);
@@ -122,6 +191,7 @@ function move(direction) {
   if (gameOver) return;
 
   const before = cloneGrid(grid);
+  mergeOccurred = false;
   let rotations = 0;
   if (direction === "up") rotations = 1;
   else if (direction === "right") rotations = 2;
@@ -137,10 +207,16 @@ function move(direction) {
     spawnTile();
     render();
 
+    if (!mergeOccurred) {
+      playMoveSound();
+    }
+
     if (hasWon) {
+      playWinSound();
       showMessage("You reached 2048! 🎉");
     } else if (!canMove()) {
       gameOver = true;
+      playGameOverSound();
       showMessage("Game Over! No more moves.");
     }
   }
@@ -199,7 +275,13 @@ boardEl.addEventListener("touchend", (e) => {
   }
 });
 
-document.getElementById("new-game").addEventListener("click", startGame);
-document.getElementById("try-again").addEventListener("click", startGame);
+document.getElementById("new-game").addEventListener("click", () => {
+  playClickSound();
+  startGame();
+});
+document.getElementById("try-again").addEventListener("click", () => {
+  playClickSound();
+  startGame();
+});
 
 startGame();
