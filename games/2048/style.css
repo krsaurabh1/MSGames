@@ -1,0 +1,132 @@
+.game-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  text-align: center;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.score-box {
+  background: var(--panel-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.5rem 1.25rem;
+  min-width: 100px;
+}
+
+.score-box .label {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  font-weight: bold;
+}
+
+.score-box #score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+#new-game {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent-2);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+#new-game:hover {
+  filter: brightness(1.05);
+}
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px;
+  background: #d8c9a3;
+  border-radius: 16px;
+  padding: 10px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  touch-action: none;
+  user-select: none;
+}
+
+.cell {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #2f2f4f;
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0.5; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.tile-2 { background: #fff8f0; }
+.tile-4 { background: #ffedcc; }
+.tile-8 { background: #ffcf8a; color: white; }
+.tile-16 { background: #ffb066; color: white; }
+.tile-32 { background: #ff8f66; color: white; }
+.tile-64 { background: #ff6b6b; color: white; }
+.tile-128 { background: #ffe066; font-size: 1.5rem; }
+.tile-256 { background: #ffd93d; font-size: 1.5rem; }
+.tile-512 { background: #6bcB77; color: white; font-size: 1.5rem; }
+.tile-1024 { background: #4ecdc4; color: white; font-size: 1.3rem; }
+.tile-2048 { background: #a06bff; color: white; font-size: 1.3rem; }
+
+.message {
+  margin-top: 1.5rem;
+  background: var(--panel-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.message.hidden {
+  display: none;
+}
+
+.message p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0 0 1rem;
+}
+
+#try-again {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
