@@ -66,6 +66,16 @@ body {
   background-attachment: fixed;
 }
 
+/* iOS Safari renders multi-layer `background-attachment: fixed` incorrectly,
+   causing the constellation layers to overlap/misplace on scroll or when the
+   address bar shows/hides. Touch devices fall back to normal scrolling
+   attachment, which looks the same on these short, single-viewport pages. */
+@media (pointer: coarse) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 body::before,
 body::after {
   content: "";
@@ -113,8 +123,8 @@ header.site-header h1 {
   font-size: 2.5rem;
   font-weight: 800;
   margin: 0;
-  color: #ff10f0;
-  text-shadow: 0 0 10px rgba(255, 16, 240, 0.8), 0 0 22px rgba(255, 16, 240, 0.5);
+  color: #5ec8ff;
+  text-shadow: 0 0 10px rgba(94, 200, 255, 0.8), 0 0 22px rgba(94, 200, 255, 0.5);
 }
 
 header.site-header p {

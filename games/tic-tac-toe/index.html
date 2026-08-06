@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2048 - M+S Games</title>
+  <title>Tic-Tac-Toe - M+S Games</title>
   <link rel="stylesheet" href="../../shared/styles.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,28 +11,35 @@
   <a class="back-link" href="../../index.html">&larr; All Games</a>
 
   <header class="site-header">
-    <h1>2048</h1>
-    <p>Use arrow keys (or swipe) to slide tiles. Combine matching numbers to reach 2048!</p>
+    <h1>Tic-Tac-Toe</h1>
+    <p id="turn-indicator">Take turns tapping a square. Get three in a row to win!</p>
   </header>
 
   <div class="game-wrap">
     <div class="top-bar">
       <div class="score-box">
-        <span class="label">Score</span>
-        <span id="score">0</span>
+        <span class="label">X Wins</span>
+        <span id="score-x">0</span>
       </div>
       <div class="score-box">
-        <span class="label">Best</span>
-        <span id="best-score">0</span>
+        <span class="label">Draws</span>
+        <span id="score-draw">0</span>
       </div>
-      <button id="new-game">New Game</button>
+      <div class="score-box">
+        <span class="label">O Wins</span>
+        <span id="score-o">0</span>
+      </div>
+    </div>
+
+    <div class="top-bar">
+      <button id="new-game">New Round</button>
     </div>
 
     <div id="board" class="board"></div>
 
     <div id="message" class="message hidden">
       <p id="message-text"></p>
-      <button id="try-again">Try Again</button>
+      <button id="try-again">Play Again</button>
     </div>
   </div>
 

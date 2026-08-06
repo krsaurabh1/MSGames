@@ -1,0 +1,136 @@
+.game-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  text-align: center;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.score-box {
+  background: var(--panel-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.5rem 1.25rem;
+  min-width: 90px;
+}
+
+.score-box .label {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  font-weight: bold;
+}
+
+.score-box span:last-child {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+#new-game {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent-2);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+#new-game:hover {
+  filter: brightness(1.05);
+}
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  background: #d8c9a3;
+  border-radius: 16px;
+  padding: 10px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  user-select: none;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  border: none;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 3rem;
+  color: #2f2f4f;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell.mark {
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.5); opacity: 0.5; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.cell.x-mark { color: #ff6b6b; }
+.cell.o-mark { color: #4ecdc4; }
+
+.cell.win {
+  background: #ffe66d;
+  color: #2f2f4f;
+}
+
+.message {
+  margin-top: 1.5rem;
+  background: var(--panel-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.message.hidden {
+  display: none;
+}
+
+.message p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0 0 1rem;
+}
+
+#try-again {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
